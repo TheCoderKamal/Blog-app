@@ -97,7 +97,8 @@ export class MemStorage implements IStorage {
   async deletePost(id: number): Promise<void> {
     this.posts.delete(id);
     // Delete associated comments
-    for (const [commentId, comment] of this.comments) {
+    const comments = Array.from(this.comments.entries());
+    for (const [commentId, comment] of comments) {
       if (comment.postId === id) {
         this.comments.delete(commentId);
       }

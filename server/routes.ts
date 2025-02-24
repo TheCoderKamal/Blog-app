@@ -25,7 +25,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     if (!req.isAuthenticated()) return res.sendStatus(401);
     const data = insertPostSchema.parse(req.body);
     const post = await storage.createPost({
-      ...data,
+      title: data.title,
+      content: data.content,
+      imageUrl: data.imageUrl ?? null,
       authorId: req.user.id,
     });
     res.status(201).json(post);
