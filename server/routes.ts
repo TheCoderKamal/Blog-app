@@ -15,9 +15,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Update user profile
   app.patch("/api/profile", async (req, res) => {
-    if (!req.isAuthenticated()) return res.sendStatus(401);
-    const user = await storage.updateUser(req.user.id, req.body);
-    res.json(user);
+    try {
+      if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
+      const user = await storage.updateUser(req.user.id, req.body);
+      req.login(user, (err) => {
+        if (err) return res.status(500).json({ message: "Failed to update session" });
+        res.json(user);
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update profile" });
+    }
   });
 
   // Create post
