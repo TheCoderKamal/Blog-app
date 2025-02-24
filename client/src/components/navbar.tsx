@@ -13,15 +13,15 @@ export default function Navbar() {
   const { user, logoutMutation } = useAuth();
 
   return (
-    <header className="border-b">
-      <div className="container flex h-16 items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <nav className="container flex h-16 items-center justify-between px-4 md:px-8">
         <Link href="/">
-          <a className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
+          <a className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text hover:opacity-80 transition-opacity">
             BlogApp
           </a>
         </Link>
 
-        <nav>
+        <div>
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -30,10 +30,12 @@ export default function Navbar() {
                     <img
                       src={user.avatarUrl}
                       alt={user.username}
-                      className="h-8 w-8 rounded-full"
+                      className="h-8 w-8 rounded-full object-cover"
                     />
                   ) : (
-                    <User className="h-5 w-5" />
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
+                      <User className="h-4 w-4" />
+                    </span>
                   )}
                 </Button>
               </DropdownMenuTrigger>
@@ -56,12 +58,12 @@ export default function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button asChild>
+            <Button asChild className="px-4 md:px-6">
               <Link href="/auth">Login</Link>
             </Button>
           )}
-        </nav>
-      </div>
+        </div>
+      </nav>
     </header>
   );
 }
