@@ -5,9 +5,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, PenSquare, Settings } from "lucide-react";
 
 export default function Navbar() {
   const { user, logoutMutation } = useAuth();
@@ -25,29 +27,52 @@ export default function Navbar() {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Button 
+                  variant="ghost" 
+                  className="relative h-10 w-10 rounded-full ring-offset-background transition-all hover:bg-muted focus-visible:ring-2"
+                >
                   {user.avatarUrl ? (
                     <img
                       src={user.avatarUrl}
                       alt={user.username}
-                      className="h-8 w-8 rounded-full object-cover"
+                      className="h-10 w-10 rounded-full object-cover transition-opacity group-hover:opacity-90"
                     />
                   ) : (
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
-                      <User className="h-4 w-4" />
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                      <span className="font-semibold text-muted-foreground">
+                        {user.username[0].toUpperCase()}
+                      </span>
                     </span>
                   )}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{user.username}</p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {user.bio || "No bio yet"}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/profile">
+                  <Link href="/posts/new">
                     <a className="flex items-center">
-                      <User className="mr-2 h-4 w-4" />
-                      Profile
+                      <PenSquare className="mr-2 h-4 w-4" />
+                      New Post
                     </a>
                   </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">
+                    <a className="flex items-center">
+                      <Settings className="mr-2 h-4 w-4" />
+                      Profile Settings
+                    </a>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="text-red-600 focus:text-red-600"
                   onClick={() => logoutMutation.mutate()}
