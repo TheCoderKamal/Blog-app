@@ -29,13 +29,13 @@ export default function Navbar() {
               <DropdownMenuTrigger asChild>
                 <Button 
                   variant="ghost" 
-                  className="relative h-10 w-10 rounded-full ring-offset-background transition-all hover:bg-muted focus-visible:ring-2"
+                  className="relative h-10 w-10 rounded-full ring-offset-background hover:opacity-80 focus-visible:ring-2"
                 >
                   {user.avatarUrl ? (
                     <img
                       src={user.avatarUrl}
                       alt={user.username}
-                      className="h-10 w-10 rounded-full object-cover transition-opacity group-hover:opacity-90"
+                      className="h-10 w-10 rounded-full object-cover"
                     />
                   ) : (
                     <span className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
