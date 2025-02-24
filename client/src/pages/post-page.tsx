@@ -18,6 +18,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { PageSpinner } from "@/components/ui/loading-spinner";
 
 export default function PostPage() {
   const { id } = useParams();
@@ -55,7 +56,7 @@ export default function PostPage() {
   if (isLoading) {
     return (
       <div className="container py-8">
-        <div className="w-full h-96 rounded-lg bg-muted animate-pulse" />
+        <PageSpinner />
       </div>
     );
   }

@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Loader2 } from "lucide-react";
+import { ButtonSpinner } from "@/components/ui/loading-spinner";
 
 export default function ProfilePage() {
   const { user } = useAuth();
@@ -112,9 +113,7 @@ export default function ProfilePage() {
                     Cancel
                   </Button>
                   <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting && (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    )}
+                    {isSubmitting && <ButtonSpinner />}
                     Save Changes
                   </Button>
                 </div>

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import RichTextEditor from "@/components/rich-text-editor";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, Image as ImageIcon } from "lucide-react";
+import { ButtonSpinner } from "@/components/ui/loading-spinner";
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");
@@ -112,9 +113,7 @@ export default function CreatePost() {
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
+                {isSubmitting && <ButtonSpinner />}
                 Publish
               </Button>
             </div>

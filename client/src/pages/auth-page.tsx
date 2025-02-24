@@ -21,7 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loader2 } from "lucide-react";
+import { ButtonSpinner } from "@/components/ui/loading-spinner";
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
@@ -121,9 +121,7 @@ function LoginForm() {
           className="w-full"
           disabled={loginMutation.isPending}
         >
-          {loginMutation.isPending && (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          )}
+          {loginMutation.isPending && <ButtonSpinner />}
           Login
         </Button>
       </form>
@@ -178,9 +176,7 @@ function RegisterForm() {
           className="w-full"
           disabled={registerMutation.isPending}
         >
-          {registerMutation.isPending && (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          )}
+          {registerMutation.isPending && <ButtonSpinner />}
           Register
         </Button>
       </form>

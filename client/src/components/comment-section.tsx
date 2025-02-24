@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Trash2 } from "lucide-react";
+import { ButtonSpinner, LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export default function CommentSection({ postId }: { postId: number }) {
   const { user } = useAuth();
@@ -79,7 +80,7 @@ export default function CommentSection({ postId }: { postId: number }) {
             rows={3}
           />
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isSubmitting && <ButtonSpinner />}
             Post Comment
           </Button>
         </form>
@@ -90,18 +91,13 @@ export default function CommentSection({ postId }: { postId: number }) {
       )}
 
       {isLoading ? (
-        <div className="space-y-4">
-          {[...Array(3)].map((_, i) => (
-            <div
-              key={i}
-              className="w-full h-20 rounded-lg bg-muted animate-pulse"
-            />
-          ))}
+        <div className="flex justify-center py-8">
+          <LoadingSpinner />
         </div>
       ) : comments?.length === 0 ? (
-        <p className="text-muted-foreground">No comments yet</p>
+        <p className="text-muted-foreground animate-fade-in">No comments yet</p>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-4 animate-fade-in">
           {comments?.map((comment) => (
             <CommentItem
               key={comment.id}
