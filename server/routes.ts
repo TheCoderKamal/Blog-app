@@ -21,16 +21,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create post
-  app.post("/api/posts", async (req, res) => {
-    if (!req.isAuthenticated()) return res.sendStatus(401);
-    const data = insertPostSchema.parse(req.body);
-    const post = await storage.createPost({
-      title: data.title,
-      content: data.content,
-      imageUrl: data.imageUrl ?? null,
-      authorId: req.user.id,
-    });
-    res.status(201).json(post);
+  app.post("/api/posts", async (req, res, next) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "You must be logged in to create a post" });
+      }
+
+      const data = insertPostSchema.parse(req.body);
+      const post = await storage.createPost({
+        title: data.title,
+        content: data.content,
+        imageUrl: data.imageUrl ?? null,
+        authorId: req.user.id,
+      });
+
+      res.status(201).json(post);
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(400).json({ message: error.message });
+      } else {
+        next(error);
+      }
+    }
   });
 
   // Get all posts
@@ -52,7 +64,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const post = await storage.getPost(Number(req.params.id));
     if (!post) return res.sendStatus(404);
     if (post.authorId !== req.user.id) return res.sendStatus(403);
-    
+
     const updated = await storage.updatePost(post.id, req.body);
     res.json(updated);
   });
@@ -63,7 +75,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const post = await storage.getPost(Number(req.params.id));
     if (!post) return res.sendStatus(404);
     if (post.authorId !== req.user.id) return res.sendStatus(403);
-    
+
     await storage.deletePost(post.id);
     res.sendStatus(204);
   });
